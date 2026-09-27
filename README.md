@@ -39,7 +39,7 @@ High-quality acoustic data is essential for training an accurate sound classifie
 * **ESC-50:** A curated dataset of 2,000 environmental audio recordings (5 seconds each) spanning 5 major acoustic domains: animal sounds, natural soundscapes/water, human non-speech, interior/domestic sounds, and exterior/urban noises (comprising 50 fine-grained subcategories). Samples are augmented via repeated sampling, time stretching, and pitch shifting to expand the dataset to 6,000 clips.
 * **UrbanSound8K (US8K):** A standard urban sound benchmark containing 8,732 audio clips (each $\\le$ 4 seconds) pre-arranged into 10 cross-validation folds. It includes 10 balanced urban sound classes: air conditioner, car horn, children playing, dog bark, drilling, engine idling, gun shot, jackhammer, siren, and street music.
 
-> \*\*Note on Data:\*\* Due to GitHub's file storage limits, raw audio dataset files are not tracked in this repository. You can download them directly from their official public repositories or use the data-download scripts provided in the `data/` folder.
+> \\\*\\\*Note on Data:\\\*\\\* Due to GitHub's file storage limits, raw audio dataset files are not tracked in this repository. You can download them directly from their official public repositories or use the data-download scripts provided in the `data/` folder.
 
 \---
 
@@ -72,7 +72,11 @@ High-quality acoustic data is essential for training an accurate sound classifie
 
 #### Research Methodology \& System Architecture Workflow:
 
-!\[System Architecture](System Architecture and Methodology-Sound Recg.png)
+<p align="center">
+
+&#x20; <img src="System Architecture and Methodology-Sound Recg.png" alt="System Architecture" width="500">
+
+</p>
 
 #### Core Data Splitting \& Experimental Protocol:
 
