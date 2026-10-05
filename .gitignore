@@ -1,0 +1,1 @@
+-e "data/\nvenv/\n__pycache__/\n.ipynb_checkpoints/\n*.npy\n*.pt" 
