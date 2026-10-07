@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESC Dual-Modal Classifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Audio Event Classifier</h1>
+        
+        <!-- Model Selection Dropdown -->
+        <label for="modelSelect"><strong>Select Neural Network:</strong></label>
+        <select id="modelSelect">
+            <option value="sresnet">SResNet + DMFF (Proposed)</option>
+            <option value="resnet">Standard ResNet-18</option>
+            <option value="cnn_gru">CNN-GRU</option>
+            <option value="vgg16">VGG-16 Baseline</option>
+        </select>
+        
+        <input type="file" id="audioUpload" accept="audio/*" capture="microphone">
+        <button id="analyzeBtn">Analyze Sound</button>
+        
+        <div id="loading" style="display: none;">Processing Audio via AI...</div>
+        
+        <div class="results">
+            <h2 id="predictionText">Prediction: --</h2>
+            
+            <!-- Static Research Paper Graph -->
+            <div class="paper-graph">
+                <h3>Model Accuracy Comparison</h3>
+                <!-- IMPORTANT: Change this src to the actual name of your saved graph image -->
+                <img src="accuracyGraph.png" alt="Accuracy Comparison Graph from Research Paper">
+            </div>
+            
+            <div class="visuals">
+                <img id="melPlot" alt="Log-Mel Spectrogram will appear here" style="display:none;">
+                <img id="rpPlot" alt="Recurrence Plot will appear here" style="display:none;">
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

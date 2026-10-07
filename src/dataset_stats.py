@@ -14,7 +14,6 @@ class_counts.plot(kind='bar')
 plt.title("ESC-50 Class Distribution (Should be perfectly flat)")
 plt.xlabel("Classes")
 plt.ylabel("Number of Audio Clips")
-plt.xticks([]) # Hide names to keep it clean
 plt.tight_layout()
 plt.savefig(r"C:\Users\TRIVIKRAM\Python VSCode\SRF\results\class_distribution.png")
 print("Saved histogram to results/class_distribution.png")
