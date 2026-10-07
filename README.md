@@ -26,9 +26,9 @@ This is framed as a multi-class acoustic classification problem:
 * **Data Manipulation \& Scientific Computing:** NumPy, pandas, SciPy
 * **Audio Signal Processing:** `librosa`, `soundfile`
 * **Auditory Filterbanks \& Nonlinear Dynamics:** `spafe` (for GFCC extraction), custom phase-space delay embedding algorithms
-* **Deep Learning Framework:** Keras with TensorFlow backend *(Optional GPU acceleration via PyTorch / Torchaudio)*
-* **Data Visualization:** Matplotlib, Seaborn
-* **Web App Deployment:** Streamlit / Gradio
+* **Deep Learning Framework:** PyTorch (Native GPU acceleration, Custom nn.Module classes, and DataLoaders)*
+* **Data Visualization:** Matplotlib, Seaborn, scikit-learn (t-SNE)
+* **Web Application Deployment:** HTML5, CSS, and JavaScript (Frontend) integrated with FastAPI (Backend) for a structured, full-scale Web Application architecture.
 
 \---
 
@@ -42,7 +42,16 @@ High-quality acoustic data is essential for training an accurate sound classifie
 > \\\*\\\*Note on Data:\\\*\\\* Due to GitHub's file storage limits, raw audio dataset files are not tracked in this repository. You can download them directly from their official public repositories or use the data-download scripts provided in the `data/` folder.
 
 \---
+🚀 Our Engineering Solutions & Improvements
+While replicating the foundational research, we have implemented several robust engineering improvements to optimize the pipeline for real-world deployment and training stability:
 
+* **Variable-Length Audio Processing:** Standard models crash when fed audio shorter or longer than the training data. We implemented Repeat/Loop Padding for short clips to preserve acoustic density (avoiding the signal dilution of zero-padding) and an Overlapping Sliding Window with a Snap-to-End strategy to process continuous, long-form audio without dropping tail-end data.
+
+* **Pre-Computed Tensor Caching:** Instead of bottlenecking the GPU by calculating heavy Digital Signal Processing (DSP) mathematics during every training epoch, we extract Log-Mel spectrograms and PAA vectors once and serialize them directly to the hard drive as PyTorch .pt tensors.
+
+* **Zero-Leakage Cross-Validation:** We strictly utilize the ESC-50 fold metadata column to generate dataset splits, ensuring that background noise from the exact same physical recording session never cross-contaminates the training and validation sets.
+
+* **Dynamic SpecAugment:** Frequency and Time masking are applied natively and randomly on-the-fly inside the PyTorch DataLoader, forcing the SResNet to learn generalized acoustic patterns rather than memorizing static pixel layouts.
 ### 📊 Methodology
 
 * **Data Acquisition \& Normalization:** Ingesting raw audio recordings and normalizing waveform amplitudes across all samples.
@@ -64,6 +73,7 @@ High-quality acoustic data is essential for training an accurate sound classifie
 ### 👨‍🏫 Acknowledgments
 
 * **Reference Paper:** *"A deep learning framework for environmental sound classification by fusing linear and nonlinear features"* (Zeng, Zhou, \& Cai, *EURASIP Journal on Advances in Signal Processing*, 2026)
+* **Mentor:** P.V.N.Balarama Murthy
 * **Category:** Audio Signal Processing / Acoustic Deep Learning
 
 \---
