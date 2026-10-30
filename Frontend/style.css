@@ -83,3 +83,35 @@ button {
         width: calc(50% - 8px); /* Exactly half width each */
     }
 }
+/* Navigation Bar Styling */
+.nav-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.nav-btn {
+    margin: 0;
+    min-height: 40px;
+    background-color: #f1f5f9; /* Light grey for inactive tabs */
+    color: #475569;
+    flex: 1;
+}
+
+/* Highlight the active tab */
+.nav-btn.active {
+    background-color: #2563eb;
+    color: white;
+}
+
+/* Hide inactive tabs smoothly */
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

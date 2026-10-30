@@ -1,47 +1,56 @@
 import os
-import torch
 import pandas as pd
+import torch
 from torch.utils.data import Dataset, DataLoader
-import torchaudio.transforms as T
+import librosa
+import numpy as np
 
 class ESC50Dataset(Dataset):
-    def __init__(self, split_csv, processed_dir=r"C:\Users\TRIVIKRAM\Python VSCode\SRF\data\processed", is_train=True):
-        self.df = pd.read_csv(split_csv)
-        self.processed_dir = processed_dir
-        self.is_train = is_train
+    def __init__(self, csv_file, audio_dir, folds):
+        """
+        Custom PyTorch Dataset for ESC-50.
+        Filters the dataset to only include specific folds (e.g.,2, 3, 4, 5 for training).
+        """
+        # Load the metadata CSV
+        self.metadata = pd.read_csv(csv_file)
         
-        # SpecAugment parameters matching the paper's augmentation strategy
-        self.freq_mask = T.FrequencyMasking(freq_mask_param=15)
-        self.time_mask = T.TimeMasking(time_mask_param=35)
-
+        # Filter the dataset to only include the requested folds
+        self.metadata = self.metadata[self.metadata['fold'].isin(folds)]
+        
+        self.audio_dir = audio_dir
+        
     def __len__(self):
-        return len(self.df)
-
+        return len(self.metadata)
+        
     def __getitem__(self, idx):
-        filename = self.df.iloc[idx]['filename'].replace('.wav', '.pt')
-        data = torch.load(os.path.join(self.processed_dir, filename), weights_only=True)
+        # 1. Get file path and label
+        row = self.metadata.iloc[idx]
+        file_path = os.path.join(self.audio_dir, row['filename'])
+        label = row['target'] # ESC-50 class ID (0 to 49)
         
-        log_mel = data['log_mel']
-        paa = data['paa']
-        label = data['label']
+        # 2. Load Audio (Enforcing 22,050 Hz)
+        y, sr = librosa.load(file_path, sr=22050)
         
-        # Add channel dimension for CNN: (128, 216) -> (1, 128, 216)
-        log_mel = log_mel.unsqueeze(0)
+        # 3. Extract Log-Mel Spectrogram
+        mel = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=512, n_mels=128)
+        log_mel = librosa.power_to_db(mel, ref=np.max)
         
-        # Apply SpecAugment only during training
-        if self.is_train:
-            log_mel = self.freq_mask(log_mel)
-            log_mel = self.time_mask(log_mel)
-            
-        return log_mel, paa, label
+        # 4. Convert to PyTorch Tensor with Channel Dimension -> Shape: [1, 128, X]
+        tensor_mel = torch.tensor(log_mel, dtype=torch.float32).unsqueeze(0)
+        
+        return tensor_mel, torch.tensor(label, dtype=torch.long)
 
-# --- Test the DataLoader throughput ---
-if __name__ == "__main__":
-    train_dataset = ESC50Dataset(r"C:\Users\TRIVIKRAM\Python VSCode\SRF\data\splits\train_fold1.csv", is_train=True)
-    # num_workers=4 optimizes loading speed
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=0)
+
+try:
+    train_dataset = ESC50Dataset(
+        csv_file=r'C:\Users\TRIVIKRAM\Python VSCode\SRF\data\raw\ESC-50-master\meta\esc50.csv', 
+        audio_dir=r'C:\Users\TRIVIKRAM\Python VSCode\SRF\data\raw\ESC-50-master\audio', 
+        folds=[2, 3, 4, 5]  # Train on folds 2-5, reserve fold 1 for validation/testing
+    )
+
+    # train_loader handles batching (feeding 32 audio files at a time to the GPU/CPU)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     
-    log_mel_batch, paa_batch, labels = next(iter(train_loader))
-    print(f"Log-Mel Batch Shape: {log_mel_batch.shape}") # Expected: [32, 1, 128, 216]
-    print(f"PAA Batch Shape: {paa_batch.shape}")         # Expected: [32, 55125]
-    print(f"Labels Shape: {labels.shape}")               # Expected: [32]
+except FileNotFoundError:
+    print("Warning: ESC-50 dataset files not found. train_loader is empty.")
+    train_loader = None 

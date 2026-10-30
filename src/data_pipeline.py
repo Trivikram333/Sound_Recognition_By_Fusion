@@ -13,7 +13,7 @@ def validate_dataset():
 
     for index, row in df.iterrows():
         file_path = os.path.join(AUDIO_DIR, row['filename'])
-        if not os.path.exists(file_path):
+        if not os.path.exists(file_path):            
             error_count += 1
             continue
             
@@ -22,7 +22,7 @@ def validate_dataset():
             print(f"[WARNING] Anomalous duration in {row['filename']}: {duration} sec")
             error_count += 1
         else:
-            valid_count += 1
+            valid_count += 1 
             
     print(f"Validated {total_files} files. Valid: {valid_count} | Errors: {error_count}")
 
