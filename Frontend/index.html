@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESC Dual-Modal Classifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Audio Event Classifier</h1>
+
+        <nav class="nav-bar">
+            <button class="nav-btn active" onclick="switchTab(event, 'view-predict')">User Prediction</button>
+            <button class="nav-btn" onclick="switchTab(event, 'view-train')">Dev Training</button>
+            <button class="nav-btn" onclick="switchTab(event, 'view-stats')">Statistics</button>
+            <button class="nav-btn" onclick="switchTab(event, 'view-docs')">ESC-50 Taxonomy</button>
+        </nav>
+
+        <!-- TIER 1: End-User Prediction -->
+        <div id="view-predict" class="tab-content" style="display: block;">
+
+            <!-- Intro (previously Docs & About) -->
+            <section class="section about" id="aboutSection">
+                <h2>About this system</h2>
+                <div class="two-col">
+                    <div>
+                        <h3>System architecture</h3>
+                        <p>
+                            This system implements a <strong>Dual Model Feature Fusion (DMFF)</strong> approach for
+                            environmental sound classification. Raw audio is preprocessed and split into two pathways:
+                            a linear spectral map (Log-Mel Spectrogram) and a non-linear dynamic map (Recurrence Plot).
+                            The two are fused using Spatial Feature Scanning and Cross-Feature Enhancement before
+                            classification.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>How to use</h3>
+                        <ol>
+                            <li>Select a neural network from the dropdown.</li>
+                            <li>Record a sound with the microphone, or upload an audio file (e.g. .wav).</li>
+                            <li>Click <strong>Analyze Sound</strong>.</li>
+                            <li>Review the prediction, its confidence and the generated feature maps.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <label for="modelSelect"><strong>Select neural network</strong></label>
+                <select id="modelSelect">
+                    <option value="sresnet">SResNet + DMFF (Proposed)</option>
+                    <option value="resnet">Standard ResNet-18</option>
+                    <option value="cnn_gru">CNN-GRU</option>
+                    <option value="vgg16">VGG-16 Baseline</option>
+                </select>
+            </section>
+
+            <!-- Live recording (sits directly above the upload) -->
+            <section class="section" id="recordSection">
+                <h3>Record live audio</h3>
+                <p class="hint">Record up to <span id="maxSecLabel">5</span> seconds. The recording is converted to a mono 22,050 Hz .wav and loaded into the upload field below.</p>
+                <div class="record-row">
+                    <button id="recordBtn" type="button">Start recording</button>
+                    <span id="recordStatus" class="hint">Ready</span>
+                </div>
+                <label class="check"><input type="checkbox" id="noiseToggle"> Use browser noise suppression</label>
+                <audio id="recordPreview" controls style="display: none;"></audio>
+            </section>
+
+            <section class="section">
+                <h3>Upload an audio file</h3>
+                <input type="file" id="audioUpload" accept="audio/*">
+                <button id="analyzeBtn">Analyze Sound</button>
+                <div id="loading" style="display: none;">Processing Audio via AI...</div>
+            </section>
+
+            <div class="results" id="PredictionResults" style="display: none;">
+                <h2 id="predictionText">Prediction: --</h2>
+
+                <div class="paper-graph">
+                    <h3>Waveform of the audio</h3>
+                    <img id="waveform" alt="Waveform Graph">
+                </div>
+                <h3>Log-Mel Plot of the audio</h3>
+                <div class="visuals">
+                    <img id="melPlot" alt="Log-Mel Spectrogram will appear here">
+                </div>
+                <h3>Recurrence Plot of the audio</h3>
+                <div class="visuals">
+                    <img id="rpPlot" alt="Recurrence Plot will appear here">
+                </div>
+            </div>
+        </div>
+
+        <!-- TIER 2: Developer Training Pages -->
+        <div id="view-train" class="tab-content" style="display: none;">
+            <h2>Model Training Controls</h2>
+            <section class="section">
+                <label for="modelSelect"><strong>Select neural network</strong></label>
+                <select id="modelSelect">
+                    <option value="sresnet">SResNet + DMFF (Proposed)</option>
+                    <option value="resnet">Standard ResNet-18</option>
+                    <option value="cnn_gru">CNN-GRU</option>
+                    <option value="vgg16">VGG-16 Baseline</option>
+                </select>
+            </section>
+            <p>Trigger remote server training and manage model checkpoints.</p>
+            <label>Hyperparameters (Epochs): <input type="number" value="50" id="epochsInput"></label>
+            <button id="trainBtn">Start Model Training Run</button>
+            <p id="trainStatus" class="hint">Training Status: Idle</p>
+            <button id="saveBtn" class="secondary">Save Model Weights</button>
+        </div>
+
+        <!-- TIER 3: Supporting & Analytical Pages -->
+        <div id="view-stats" class="tab-content" style="display: none;">
+            <h2>System & Dataset Statistics</h2>
+            <div class="paper-graph">
+                <h3>ESC-50 Dataset Distribution</h3>
+                <p>Total Files: 2,000 | Classes: 50 | Files per Class: 40</p>
+                <p>Cross-Validation Strategy: 5-Fold Splitting</p>
+                <p>Audio Sampling Rate: 22,050 Hz</p>
+            </div>
+        </div>
+
+        <!-- TIER 4: ESC-50 Taxonomy (id kept as view-docs so switchTab still works) -->
+        <div id="view-docs" class="tab-content" style="display: none;">
+            <h2>ESC-50 Taxonomy</h2>
+            <div id="taxonomy"></div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="extras.js"></script>
+</body>
+</html>

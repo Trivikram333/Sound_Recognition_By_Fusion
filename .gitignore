@@ -1,0 +1,57 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+
+# Model weights and checkpoints
+weights/
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.safetensors
+*.pkl
+
+# Dataset and preprocessed arrays
+data/
+ESC-50-master/
+processed/
+*.npy
+*.npz
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads and temp files
+uploads/
+tmp/
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Notebooks, logs, experiment tracking
+.ipynb_checkpoints/
+*.log
+runs/
+wandb/
+lightning_logs/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.env
