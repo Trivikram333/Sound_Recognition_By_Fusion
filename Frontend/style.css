@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 :root {
     --ink: #1b2a3a;
     --muted: #5a6b7c;
@@ -185,7 +184,6 @@ button.secondary:hover { background: var(--tint); }
     h1 { padding: 28px 18px 22px; font-size: 1.6rem; }
     .two-col { grid-template-columns: 1fr; gap: 24px; }
     .section, .about { padding: 22px 20px; }
-=======
 * {
     box-sizing: border-box;
     margin: 0;
@@ -302,5 +300,5 @@ button {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
+}
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 import glob
 import pandas as pd
@@ -93,7 +92,6 @@ def run_dataset_verification(csv_path=r"C:\Users\TRIVIKRAM\Python VSCode\SRF\dat
 
 if __name__ == "__main__":
     run_dataset_verification()
-=======
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -113,4 +111,3 @@ plt.ylabel("Number of Audio Clips")
 plt.tight_layout()
 plt.savefig(r"C:\Users\TRIVIKRAM\Python VSCode\SRF\results\class_distribution.png")
 print("Saved histogram to results/class_distribution.png")
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6

@@ -75,7 +75,6 @@ import torch
 import torch.nn.functional as F
 
 
-<<<<<<< HEAD
 def compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128):
 
     '''Threshold-free Recurrence Plot from the PAA signal.
@@ -83,7 +82,6 @@ def compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128):
 """def compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128):
 
     Threshold-free Recurrence Plot from the PAA signal.
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
 
     y_paa      : 1D array/tensor (output of STES + PAA)
     m          : embedding dimension (paper doesn't state a value)
@@ -92,11 +90,7 @@ def compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128):
                  so the N x N distance matrix fits in memory
     out_size   : the RP is resized to out_size x out_size
     returns    : float32 tensor of shape (out_size, out_size), values in [0, 1]
-<<<<<<< HEAD
     '''
-=======
-
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
     y = np.asarray(y_paa, dtype=np.float32)
 
     # 1. Shrink to series_len points by averaging equal segments (extra PAA)
@@ -121,11 +115,6 @@ def compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128):
     # 5. Resize to a fixed image size
     D = F.adaptive_avg_pool2d(D[None, None], out_size)[0, 0]
     return D.float()
-<<<<<<< HEAD
-
-=======
-"""
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
 df = pd.read_csv(META_CSV)
 
 print("Extracting features and saving as PyTorch tensors...")
@@ -152,11 +141,7 @@ for index, row in df.iterrows():
 
     tensor_data = {
         'log_mel': torch.tensor(log_mel, dtype=torch.float32),
-<<<<<<< HEAD
         'rp': compute_rp(y_paa, m=3, tau=2, series_len=2048, out_size=128),
-=======
-        'paa': torch.tensor(y_paa, dtype=torch.float32),
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
         'label': torch.tensor(row['target'], dtype=torch.long),
     }
 

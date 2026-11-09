@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-<<<<<<< HEAD
 import numpy as np
 import torch
 from torch.utils import data
@@ -63,7 +62,6 @@ try:
 except FileNotFoundError:
     print("Pre-split CSV files not found. Ensure make_splits has been executed.")
     train_loader, val_loader = None, None
-=======
 import torch
 from torch.utils.data import Dataset, DataLoader
 import librosa
@@ -118,4 +116,3 @@ try:
 except FileNotFoundError:
     print("Warning: ESC-50 dataset files not found. train_loader is empty.")
     train_loader = None 
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6

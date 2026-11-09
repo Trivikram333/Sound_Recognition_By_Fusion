@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const API = "http://localhost:8000";
 
 // Turns any backend error shape into readable text
@@ -10,24 +9,16 @@ function errorMessage(data) {
 }
 
 /* ---------------- Predict ---------------- */
-=======
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
 document.getElementById('analyzeBtn').addEventListener('click', async () => {
     const fileInput = document.getElementById('audioUpload');
     const modelSelect = document.getElementById('modelSelect').value;
     const loadingText = document.getElementById('loading');
     const predictionText = document.getElementById('predictionText');
     const waveform = document.getElementById('waveform');
-<<<<<<< HEAD
     const logmel = document.getElementById('melPlot');
     const rpPlot = document.getElementById('rpPlot');
     const resultsContainer = document.getElementById('PredictionResults');
 
-=======
-    const logmel=document.getElementById('melPlot');
-    const rpPlot = document.getElementById('rpPlot');
-    const resultsContainer = document.getElementById('PredictionResults'); 
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
     if (fileInput.files.length === 0) {
         alert("Please select or record an audio file first.");
         return;
@@ -43,36 +34,18 @@ document.getElementById('analyzeBtn').addEventListener('click', async () => {
     predictionText.innerText = "Prediction: Calculating...";
 
     try {
-<<<<<<< HEAD
         const response = await fetch(`${API}/api/predict`, { method: "POST", body: formData });
         const data = await response.json();
 
         if (response.ok && data.status === "success") {
-=======
-        const response = await fetch("http://localhost:8000/api/predict", {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-        
-        if (data.status === "success") {
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
             predictionText.innerText = `Prediction: ${data.top_class} (${data.confidence}%)`;
             waveform.src = data.wave;
             logmel.src = data.Logmel;
             rpPlot.src = data.rp_image;
-<<<<<<< HEAD
             resultsContainer.style.display = 'block';
         } else {
             predictionText.innerText = "Prediction: --";
             alert("Error: " + errorMessage(data));
-=======
-
-            resultsContainer.style.display = 'block';
-        } else {
-            alert("Error: " + data.error);
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
         }
     } catch (error) {
         console.error("Network Error:", error);
@@ -81,7 +54,6 @@ document.getElementById('analyzeBtn').addEventListener('click', async () => {
         loadingText.style.display = 'none';
     }
 });
-<<<<<<< HEAD
 
 /* ---------------- Tab navigation ---------------- */
 function switchTab(event, targetId) {
@@ -165,48 +137,4 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     } catch (e) {
         alert("Failed to connect to backend.");
     }
-=======
-// Tab Navigation Logic
-function switchTab(event, targetId) {
-    // 1. Hide all tab contents
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
-    });
-
-    // 2. Remove 'active' styling from all navigation buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-
-    // 3. Show the selected tab content
-    document.getElementById(targetId).style.display = 'block';
-
-    // 4. Highlight the button that was just clicked
-    event.currentTarget.classList.add('active');
-}
-
-// Trigger Training
-document.getElementById('trainBtn').addEventListener('click', async () => {
-    const model = document.getElementById('modelSelect').value;
-    alert(`Initiating training for ${model}...`);
-    await fetch("http://localhost:8000/api/train", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ epochs: 50, model_name: model })
-    });
-});
-
-// Save Model Checkpoint
-document.getElementById('saveBtn').addEventListener('click', async () => {
-    const model = document.getElementById('modelSelect').value;
-    const formData = new FormData();
-    formData.append("model_choice", model);
-    
-    const response = await fetch("http://localhost:8000/api/save-model", {
-        method: "POST",
-        body: formData
-    });
-    const data = await response.json();
-    alert(data.message);
->>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
 });
