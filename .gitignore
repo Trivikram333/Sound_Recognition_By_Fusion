@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Secrets
 .env
 .env.*
@@ -55,3 +56,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.env
+=======
+-e "data/\nvenv/\n__pycache__/\n.ipynb_checkpoints/\n*.npy\n*.pt" 
+>>>>>>> 202da7f9308cc9f513203728b3b384a02f600ee6
